@@ -1,5 +1,4 @@
 function Community() {
-  // Static sample posts (to be replaced with API data in Phase 2)
   const posts = [
     { username: 'john_doe', content: 'Tips for learning Spanish verbs?', date: '2025-07-08' },
     { username: 'jane_smith', content: 'French pronunciation is tricky, any advice?', date: '2025-07-07' },
