@@ -16,7 +16,6 @@ function LanguageSelection() {
       alert('Please select a language');
       return;
     }
-    // Store language selection (to be saved in backend later)
     console.log('Selected language:', selectedLanguage);
     navigate('/level-selection', { state: { language: selectedLanguage } });
   };
@@ -30,7 +29,7 @@ function LanguageSelection() {
             key={lang.code}
             onClick={() => setSelectedLanguage(lang.code)}
             className={`p-6 rounded-lg shadow-lg hover:scale-105 transition ${
-              selectedLanguage === lang.code ? 'bg-blue-100 border-2 border-blue-500' : 'bg-white'
+              selectedLanguage === lang.code ? 'bg-blue-100 border-4 border-blue-500' : 'bg-white'
             }`}
           >
             <span className="text-4xl">{lang.icon}</span>
@@ -40,7 +39,7 @@ function LanguageSelection() {
       </div>
       <button
         onClick={handleSelect}
-        className="mt-8 bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition"
+        className="mt-8 bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition shadow-md"
       >
         Next
       </button>
