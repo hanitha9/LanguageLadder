@@ -6,14 +6,17 @@ function LevelSelection() {
   const { state } = useLocation();
   const navigate = useNavigate();
 
-  const levels = ['Low', 'Medium', 'High'];
+  const levels = [
+    { name: 'Low', description: 'Beginner' },
+    { name: 'Medium', description: 'Intermediate' },
+    { name: 'High', description: 'Advanced' },
+  ];
 
   const handleSelect = () => {
     if (!selectedLevel) {
       alert('Please select a level');
       return;
     }
-    // Store level selection (to be saved in backend later)
     console.log('Selected level:', selectedLevel, 'for language:', state.language);
     navigate('/lesson', { state: { language: state.language, level: selectedLevel } });
   };
@@ -24,22 +27,20 @@ function LevelSelection() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
         {levels.map((level) => (
           <button
-            key={level}
-            onClick={() => setSelectedLevel(level)}
+            key={level.name}
+            onClick={() => setSelectedLevel(level.name)}
             className={`p-6 rounded-lg shadow-lg hover:scale-105 transition ${
-              selectedLevel === level ? 'bg-blue-100 border-2 border-blue-500' : 'bg-white'
+              selectedLevel === level.name ? 'bg-blue-100 border-4 border-blue-500' : 'bg-white'
             }`}
           >
-            <h3 className="text-xl font-bold text-gray-800">{level}</h3>
-            <p className="text-gray-600">
-              {level === 'Low' ? 'Beginner' : level === 'Medium' ? 'Intermediate' : 'Advanced'}
-            </p>
+            <h3 className="text-xl font-bold text-gray-800">{level.name}</h3>
+            <p className="text-gray-600">{level.description}</p>
           </button>
         ))}
       </div>
       <button
         onClick={handleSelect}
-        className="mt-8 bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition"
+        className="mt-8 bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition shadow-md"
       >
         Start Learning
       </button>
