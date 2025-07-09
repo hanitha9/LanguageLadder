@@ -13,6 +13,20 @@ body {
   to { transform: translateY(0); opacity: 1; }
 }
 
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
 .animate-slide-in {
   animation: slideIn 0.5s ease-out;
+}
+
+.animate-shake {
+  animation: shake 0.3s ease-in-out;
+}
+
+.progress-bar {
+  background: linear-gradient(to right, #4ade80, #22d3ee);
 }
