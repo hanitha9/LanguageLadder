@@ -10,7 +10,7 @@ function Home() {
       <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white p-6 rounded-lg shadow-lg hover:scale-105 transition">
           <h3 className="text-xl font-bold text-blue-600">Interactive Lessons</h3>
-          <p className="text-gray-600">Engage with dynamic flashcards and exercises.</p>
+          <p className="text-gray-600">Engage with AI-generated flashcards and exercises.</p>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-lg hover:scale-105 transition">
           <h3 className="text-xl font-bold text-blue-600">Community</h3>
@@ -18,7 +18,7 @@ function Home() {
         </div>
         <div className="bg-white p-6 rounded-lg shadow-lg hover:scale-105 transition">
           <h3 className="text-xl font-bold text-blue-600">Progress Tracking</h3>
-          <p className="text-gray-600">Monitor your growth with personalized stats.</p>
+          <p className="text-gray-600">Monitor your growth with streaks and points.</p>
         </div>
       </div>
     </div>
