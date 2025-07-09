@@ -1,4 +1,7 @@
-/* Custom styles (minimal, as Tailwind is used) */
 .container {
   max-width: 1200px;
+}
+
+.progress-bar {
+  background: linear-gradient(to right, #4ade80, #22d3ee);
 }
