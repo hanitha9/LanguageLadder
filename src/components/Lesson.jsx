@@ -9,69 +9,50 @@ function Lesson() {
   const [streak, setStreak] = useState(0);
   const [points, setPoints] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [error, setError] = useState('');
+  const [feedback, setFeedback] = useState('');
   const { state } = useLocation();
 
   const language = state?.language || 'es';
   const level = state?.level || 'Low';
 
-  // Sample data for now (Claude API integration stub)
-  const sampleCards = {
-    es: {
-      Low: [
-        { front: 'Hello', back: 'Hola', type: 'vocab' },
-        { front: 'Thank you', back: 'Gracias', type: 'vocab' },
-        { front: 'Good morning', back: 'Buenos días', type: 'phrase' },
-      ],
-      Medium: [
-        { front: 'I am', back: 'Soy', type: 'verb' },
-        { front: 'To eat', back: 'Comer', type: 'verb' },
-      ],
-      High: [
-        { front: 'I have been', back: 'He estado', type: 'verb' },
-      ],
-    },
-    fr: {
-      Low: [
-        { front: 'Hello', back: 'Bonjour', type: 'vocab' },
-        { front: 'Thank you', back: 'Merci', type: 'vocab' },
-      ],
-      Medium: [
-        { front: 'I am', back: 'Je suis', type: 'verb' },
-      ],
-      High: [
-        { front: 'I would like', back: 'Je voudrais', type: 'phrase' },
-      ],
-    },
-    de: {
-      Low: [
-        { front: 'Hello', back: 'Hallo', type: 'vocab' },
-        { front: 'Thank you', back: 'Danke', type: 'vocab' },
-      ],
-      Medium: [
-        { front: 'I am', back: 'Ich bin', type: 'verb' },
-      ],
-      High: [
-        { front: 'I have seen', back: 'Ich habe gesehen', type: 'verb' },
-      ],
-    },
-  };
-
   useEffect(() => {
-    // Simulate Claude API call (to be replaced with actual API)
     const fetchContent = async () => {
       try {
-        // Placeholder: Replace with Anthropic API call
-        // const response = await axios.post('https://api.anthropic.com/v1/complete', {
-        //   prompt: `Generate ${level} level ${language} language lesson content`,
-        //   model: 'claude-3-sonnet-20240229',
-        //   max_tokens: 1000,
-        // }, { headers: { 'x-api-key': 'YOUR_CLAUDE_API_KEY' } });
-        // setCards(response.data.completions);
+        const response = await axios.post(
+          'https://api.anthropic.com/v1/messages',
+          {
+            model: 'claude-3-sonnet-20240229',
+            max_tokens: 1000,
+            messages: [
+              {
+                role: 'user',
+                content: `Generate 5 ${level.toLowerCase()} level ${language} language lesson items (vocabulary, phrases, or grammar exercises) in JSON format with fields: front (English), back (${language}), type (vocab, phrase, or grammar). Example: [{"front": "Hello", "back": "Hola", "type": "vocab"}]`,
+              },
+            ],
+          },
+          {
+            headers: {
+              'x-api-key': process.env.REACT_APP_CLAUDE_API_KEY,
+              'anthropic-version': '2023-06-01',
+              'content-type': 'application/json',
+            },
+          }
+        );
 
-        // Using sample data for now
-        setCards(sampleCards[language][level] || []);
-      } catch (error) {
-        console.error('Error fetching lesson content:', error);
+        // Parse Claude response (adjust based on actual API response structure)
+        const generatedContent = JSON.parse(response.data.content[0].text);
+        setCards(generatedContent);
+        setError('');
+      } catch (err) {
+        console.error('Error fetching lesson content:', err);
+        setError('Failed to load lesson content. Using fallback data.');
+        // Fallback static data
+        setCards([
+          { front: 'Hello', back: language === 'es' ? 'Hola' : language === 'fr' ? 'Bonjour' : 'Hallo', type: 'vocab' },
+          { front: 'Thank you', back: language === 'es' ? 'Gracias' : language === 'fr' ? 'Merci' : 'Danke', type: 'vocab' },
+          { front: 'Good morning', back: language === 'es' ? 'Buenos días' : language === 'fr' ? 'Bon matin' : 'Guten Morgen', type: 'phrase' },
+        ]);
       }
     };
     fetchContent();
@@ -82,9 +63,22 @@ function Lesson() {
   const handleCorrect = () => {
     setStreak(streak + 1);
     setPoints(points + 10);
-    setProgress((currentCard + 1) / cards.length * 100);
-    setIsFlipped(false);
-    setCurrentCard((prev) => (prev + 1) % cards.length);
+    setProgress(((currentCard + 1) / cards.length) * 100);
+    setFeedback('Great job! 🎉');
+    setTimeout(() => {
+      setFeedback('');
+      setIsFlipped(false);
+      setCurrentCard((prev) => (prev + 1) % cards.length);
+    }, 1000);
+  };
+
+  const handleIncorrect = () => {
+    setStreak(0);
+    setFeedback('Try again! 😊');
+    setTimeout(() => {
+      setFeedback('');
+      setIsFlipped(false);
+    }, 1000);
   };
 
   return (
@@ -99,13 +93,15 @@ function Lesson() {
         </div>
       </div>
       <div className="w-full bg-gray-200 rounded-full h-4 mb-6">
-        <div className="progress-bar h-4 rounded-full" style={{ width: `${progress}%` }}></div>
+        <div className="progress-bar h-4 rounded-full transition-all duration-500" style={{ width: `${progress}%` }}></div>
       </div>
+      {error && <p className="text-red-500 mb-4 animate-shake">{error}</p>}
+      {feedback && <p className="text-center text-xl font-bold text-green-600 mb-4">{feedback}</p>}
       {cards.length > 0 ? (
         <div className="border p-6 rounded-lg bg-white shadow-lg max-w-md mx-auto">
           <div
             onClick={handleFlip}
-            className="text-center p-8 cursor-pointer bg-blue-50 rounded-lg hover:bg-blue-100 transition"
+            className="text-center p-8 cursor-pointer bg-blue-50 rounded-lg hover:bg-blue-100 transition-all duration-300"
           >
             <p className="text-2xl font-semibold text-gray-800">
               {isFlipped ? cards[currentCard].back : cards[currentCard].front}
@@ -120,7 +116,7 @@ function Lesson() {
               Correct
             </button>
             <button
-              onClick={() => setIsFlipped(false)}
+              onClick={handleIncorrect}
               className="bg-red-600 text-white px-6 py-2 rounded-full hover:bg-red-700 transition"
             >
               Incorrect
