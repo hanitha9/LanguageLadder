@@ -23,7 +23,7 @@ function Register() {
   return (
     <div className="container mx-auto p-6 animate-slide-in">
       <h2 className="text-3xl font-extrabold text-blue-800 mb-6">Register</h2>
-      {error && <p className="text-red-500 mb-4">{error}</p>}
+      {error && <p className="text-red-500 mb-4 animate-shake">{error}</p>}
       <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg">
         <div className="mb-4">
           <label className="block text-gray-700 font-medium">Username</label>
