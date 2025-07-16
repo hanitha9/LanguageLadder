@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/Card";
 import { courses } from "@/data/courses";
 
@@ -12,7 +13,7 @@ export default async function CoursesPage() {
             id={course.id}
             title={course.title}
             imageSrc={course.imageSrc}
-            onClick={() => {}}
+            onClick={() => {}} // Placeholder; replace with navigation logic if needed
             disabled={false}
             active={false}
           />
