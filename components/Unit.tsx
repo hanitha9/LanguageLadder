@@ -1,5 +1,6 @@
+
 import Link from "next/link";
-import { NotebookText } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LessonButton } from "@/components/LessonButton";
 
@@ -27,7 +28,7 @@ export const Unit = ({ id, order, title, description, lessons, activeLesson, act
             variant="secondary"
             className="hidden xl:flex border-2 border-b-4 active:border-b-2"
           >
-            <NotebookText className="mr-2" />
+            <BookOpen className="mr-2" />
             Continue
           </Button>
         </Link>
