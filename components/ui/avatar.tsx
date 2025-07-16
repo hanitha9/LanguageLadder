@@ -1,4 +1,4 @@
-```tsx
+
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
@@ -40,4 +40,3 @@ const AvatarImage = React.forwardRef<HTMLImageElement, AvatarImageProps>(
 AvatarImage.displayName = "AvatarImage";
 
 export { Avatar, AvatarImage };
-```
