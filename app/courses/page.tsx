@@ -13,7 +13,6 @@ export default async function CoursesPage() {
             id={course.id}
             title={course.title}
             imageSrc={course.imageSrc}
-            onClick={() => {}} // Placeholder; replace with navigation logic if needed
             disabled={false}
             active={false}
           />
