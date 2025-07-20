@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/Card";
 import { courses } from "@/data/courses";
 
